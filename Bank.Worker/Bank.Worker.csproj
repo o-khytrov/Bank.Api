@@ -17,4 +17,8 @@
         <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Src\Bank.Data\Bank.Data.csproj" />
+    </ItemGroup>
 </Project>

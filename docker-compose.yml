@@ -11,9 +11,9 @@
     depends_on:
       - bank.postgres
       - bank.rabbitmq
-    ports:     
-      - "8080:8080"  # Expose port 8000 on the host
-
+    ports:
+      - "8080:8080"
+  
   bank.worker:
     image: bank.worker
     build:
@@ -35,7 +35,9 @@
       POSTGRES_DB: bankdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+    ports:
+      - "5432:5432"
+  
   bank.rabbitmq:
     image: rabbitmq:3-management
     ports:

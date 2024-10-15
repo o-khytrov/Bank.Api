@@ -3,6 +3,11 @@ namespace Bank.Common;
 public class Order
 {
     /// <summary>
+    /// Id of the order 
+    /// </summary>
+    public int OrderId { get; set; }
+
+    /// <summary>
     /// Unique identifier for the client placing the order 
     /// </summary>
     public string ClientId { get; set; }

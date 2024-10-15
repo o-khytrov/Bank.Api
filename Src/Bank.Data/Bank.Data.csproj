@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\MsSql\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.35" />
+      <PackageReference Include="FluentMigrator" Version="6.2.0" />
+      <PackageReference Include="FluentMigrator.Extensions.Postgres" Version="6.2.0" />
+      <PackageReference Include="FluentMigrator.Runner" Version="6.2.0" />
+      <PackageReference Include="Npgsql" Version="8.0.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Migrations\InidialMigration.Down.Sql" />
+      <EmbeddedResource Include="Migrations\InidialMigration.Down.Sql" />
+      <None Remove="Migrations\InitialMigration.Up.sql" />
+      <EmbeddedResource Include="Migrations\InitialMigration.Up.sql" />
+    </ItemGroup>
+
+</Project>
