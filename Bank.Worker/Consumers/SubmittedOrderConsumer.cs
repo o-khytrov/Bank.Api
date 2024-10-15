@@ -2,7 +2,7 @@
 using Bank.Common;
 using MassTransit;
 
-namespace Bank.Worker;
+namespace Bank.Worker.Consumers;
 
 class SubmitOrderConsumer(ILogger<SubmitOrderConsumer> logger) : IConsumer<Order>
 {
