@@ -1,0 +1,49 @@
+﻿services:
+  bank.api:
+    image: bank.api
+    build:
+      context: .
+      dockerfile: Bank.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
+      - RabbitMQ__HostName=bank.rabbitmq
+    depends_on:
+      - bank.postgres
+      - bank.rabbitmq
+    ports:     
+      - "8080:8080"  # Expose port 8000 on the host
+
+  bank.worker:
+    image: bank.worker
+    build:
+      context: .
+      dockerfile: Bank.Worker/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
+      - RabbitMQ__HostName=bank.rabbitmq
+    depends_on:
+      - bank.postgres
+      - bank.rabbitmq
+
+  bank.postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bankdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  bank.rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"  # Management UI
+      - "5672:5672"    # RabbitMQ port
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+
+volumes:
+  postgres_data:
