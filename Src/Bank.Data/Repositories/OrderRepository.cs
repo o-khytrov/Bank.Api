@@ -1,8 +1,9 @@
 ﻿using System.Data;
+using Bank.Common;
 using Dapper;
 using Npgsql;
 
-namespace Bank.Data;
+namespace Bank.Data.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
@@ -13,16 +14,16 @@ public class OrderRepository : IOrderRepository
         _connectionString = connectionString;
     }
 
-    public async Task InsertOrder(string clientId, string address, decimal amount, string currency, string clientIp, CancellationToken cancellationToken = default)
+    public async Task InsertOrder(Order order, CancellationToken cancellationToken = default)
     {
         await using var dbConnection = new NpgsqlConnection(_connectionString);
         var parameters = new
         {
-            p_clientid = clientId,
-            p_address = address,
-            p_amount = amount,
-            p_currency = currency,
-            p_clientip = clientIp
+            p_clientid = order.ClientId,
+            p_address = order.Address,
+            p_amount = order.Amount,
+            p_currency = order.Currency,
+            p_clientip = order.ClientId
         };
 
         await dbConnection.ExecuteAsync("InsertOrderProc", parameters, commandType: CommandType.StoredProcedure);
