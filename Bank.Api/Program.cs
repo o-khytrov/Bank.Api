@@ -1,8 +1,6 @@
 using System.Reflection;
-using Bank.Api;
 using FluentValidation;
-using MediatR;
-using IPublisher = Bank.Api.IPublisher;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +11,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-builder.Services.AddSingleton<IPublisher, Publisher>();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("user");
+            h.Password("password");
+        });
+
+        cfg.ConfigureEndpoints(context);
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

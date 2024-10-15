@@ -10,6 +10,8 @@
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.10.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+        <PackageReference Include="MassTransit" Version="8.3.0-develop.2073" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
         <PackageReference Include="MediatR" Version="12.4.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
         <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
