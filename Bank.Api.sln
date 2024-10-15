@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Worker", "Bank.Worker\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Common", "Bank.Common\Bank.Common.csproj", "{83AB5AE3-E6CE-4EF5-BA69-1D0A5462AC55}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{50472AA8-1B70-4236-8654-FEB97FEC8692}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Api.UnitTests", "Tests\Bank.Api.UnitTests\Bank.Api.UnitTests.csproj", "{B301D137-204D-4858-81A3-E31BB3242216}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +33,12 @@ Global
 		{83AB5AE3-E6CE-4EF5-BA69-1D0A5462AC55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83AB5AE3-E6CE-4EF5-BA69-1D0A5462AC55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83AB5AE3-E6CE-4EF5-BA69-1D0A5462AC55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B301D137-204D-4858-81A3-E31BB3242216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B301D137-204D-4858-81A3-E31BB3242216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B301D137-204D-4858-81A3-E31BB3242216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B301D137-204D-4858-81A3-E31BB3242216}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B301D137-204D-4858-81A3-E31BB3242216} = {50472AA8-1B70-4236-8654-FEB97FEC8692}
 	EndGlobalSection
 EndGlobal
