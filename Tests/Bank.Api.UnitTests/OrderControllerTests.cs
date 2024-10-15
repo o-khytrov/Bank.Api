@@ -19,7 +19,7 @@ public class OrderControllerTests
     {
         _mediatorMock = new Mock<IMediator>();
 
-        _orderController = new OrderController(_mediatorMock.Object);
+        _orderController = new OrderController(_mediatorMock.Object, new CreateOrderRequestValidator());
     }
 
     [Test]
