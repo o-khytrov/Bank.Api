@@ -10,16 +10,16 @@ namespace Bank.Common
         /// <summary>
         /// Ukrainian Hryvnia
         /// </summary>
-        UAH = 1,
+        UAH = 980,
 
         /// <summary>
         ///  US Dollar
         /// </summary>
-        USD = 2,
+        USD = 840,
 
         /// <summary>
         /// Euro
         /// </summary>
-        EUR = 3 // 
+        EUR = 978 // 
     }
 }

@@ -1,4 +1,5 @@
 using Bank.Data;
+using Bank.Data.Repositories;
 using Bank.Worker;
 using FluentMigrator.Runner;
 

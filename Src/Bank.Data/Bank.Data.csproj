@@ -25,4 +25,8 @@
       <EmbeddedResource Include="Migrations\InitialMigration.Up.sql" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Bank.Common\Bank.Common.csproj" />
+    </ItemGroup>
+
 </Project>
