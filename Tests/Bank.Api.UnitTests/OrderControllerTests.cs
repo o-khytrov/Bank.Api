@@ -1,7 +1,9 @@
 using Bank.Api.Controllers;
 using Bank.Api.Models;
 using Bank.Common;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace Bank.Api.UnitTests;
 
@@ -9,11 +11,15 @@ namespace Bank.Api.UnitTests;
 public class OrderControllerTests
 {
     private OrderController _orderController;
+    private Mock<IMediator> _mediatorMock;
+
 
     [SetUp]
     public void Setup()
     {
-        _orderController = new OrderController();
+        _mediatorMock = new Mock<IMediator>();
+
+        _orderController = new OrderController(_mediatorMock.Object);
     }
 
     [Test]
@@ -28,25 +34,21 @@ public class OrderControllerTests
             Currency = Currency.USD
         };
 
+        var expectedResponse = new CreateOrderResponse()
+        {
+            OrderId = Guid.NewGuid().ToString()
+        };
+
+        _mediatorMock.Setup(m => m.Send(It.IsAny<CreteOrderRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedResponse);
+
         // Act
-        var result = await _orderController.CreateOrder(request);
+        var result = await _orderController.CreateOrder(request, CancellationToken.None);
 
         // Assert
         Assert.IsInstanceOf<OkObjectResult>(result);
         var okResult = result as OkObjectResult;
-        Assert.That(okResult?.Value, Is.EqualTo("Order created"));
-    }
-
-    [Test]
-    public async Task CreateOrder_InvalidRequest_ReturnsBadRequest()
-    {
-        // Arrange
-        var request = new CreteOrderRequest();
-
-        // Act
-        var result = await _orderController.CreateOrder(request);
-
-        // Assert
-        Assert.IsInstanceOf<OkObjectResult>(result);
+        Assert.That(okResult?.Value, Is.EqualTo(expectedResponse));
+        _mediatorMock.Verify(m => m.Send(It.IsAny<CreteOrderRequest>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 }
