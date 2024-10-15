@@ -1,6 +1,8 @@
 ﻿using Bank.Api.Models;
+using Bank.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SearchOrderRequest = Bank.Common.SearchOrderRequest;
 
 namespace Bank.Api.Controllers;
 
@@ -18,6 +20,13 @@ public class OrderController(IMediator mediator, CreateOrderRequestValidator val
         }
 
         CreateOrderResponse result = await mediator.Send(request, cancellationToken);
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SearchOrder([FromQuery] SearchOrderApiRequest searchRequest, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(searchRequest, cancellationToken);
         return Ok(result);
     }
 }

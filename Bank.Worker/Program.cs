@@ -20,6 +20,7 @@ builder.Services.AddSingleton<IOrderRepository>(new OrderRepository(connectionSt
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<SubmitOrderConsumer>();
+    x.AddConsumer<SearchOrderConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
