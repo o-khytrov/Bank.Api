@@ -3,7 +3,7 @@
     image: bank.api
     container_name: bank-api
     build:
-      context: .
+      context: ./Src
       dockerfile: Bank.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -20,7 +20,7 @@
     image: bank.worker
     container_name: bank-worker
     build:
-      context: .
+      context: ./Src
       dockerfile: Bank.Worker/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

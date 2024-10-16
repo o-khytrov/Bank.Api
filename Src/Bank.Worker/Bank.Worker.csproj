@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Src\Bank.Data\Bank.Data.csproj"/>
+      <ProjectReference Include="..\Bank.Common\Bank.Common.csproj" />
+      <ProjectReference Include="..\Bank.Data\Bank.Data.csproj" />
     </ItemGroup>
 </Project>
