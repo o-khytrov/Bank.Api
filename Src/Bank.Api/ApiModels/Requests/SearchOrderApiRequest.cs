@@ -2,14 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace Bank.Api.ApiModels.Requests;
 
-public record SearchOrderApiRequest
-{
-    [JsonPropertyName("client_id")]
-    public string? ClientId { get; set; }
-
-    [JsonPropertyName("department_address")]
-    public string? DepartmentAddress { get; set; }
-
-    [JsonPropertyName("request_id")]
-    public int? OrderId { get; set; }
-}
+public record SearchOrderApiRequest(
+    [property: JsonPropertyName("client_id")]
+    string? ClientId = null,
+    [property: JsonPropertyName("department_address")]
+    string? DepartmentAddress = null,
+    [property: JsonPropertyName("request_id")]
+    int? OrderId = null
+);

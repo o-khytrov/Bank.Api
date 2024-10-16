@@ -1,21 +1,23 @@
-using Bank.Worker;
-using FluentMigrator.Runner;
+namespace Bank.Worker;
 
-
-var builder = Host.CreateApplicationBuilder(args);
-builder.Configuration.AddEnvironmentVariables();
-var connectionString = builder.Configuration.GetConnectionString("BankDb")
-                       ?? throw new ArgumentException("Missing connection string");
-
-builder.Services.AddDbMigrations(connectionString);
-builder.Services.AddDb(connectionString);
-builder.Services.AddMessaging(builder.Configuration);
-
-var host = builder.Build();
-using (var scope = host.Services.CreateScope())
+public class Program
 {
-    var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
-    runner.MigrateUp();
-}
+    public static void Main(string[] args)
+    {
+        var host = CreateWorkerHost(args);
+        host.Services.MigrateDb();
 
-host.Run();
+        host.Run();
+    }
+
+    public static IHost CreateWorkerHost(string[] strings)
+    {
+        var builder = Host.CreateApplicationBuilder(strings);
+        builder.Configuration.AddEnvironmentVariables();
+        builder.Services.AddWorker(builder.Configuration);
+
+
+        var host1 = builder.Build();
+        return host1;
+    }
+}

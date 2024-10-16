@@ -8,7 +8,7 @@ namespace Bank.Worker;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDbMigrations(this IServiceCollection services, string connectionString)
+    private static IServiceCollection AddDbMigrations(this IServiceCollection services, string connectionString)
     {
         services.AddFluentMigratorCore()
             .ConfigureRunner(rb => rb
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
     {
         var rabbitMqConfig = configuration.GetSection("RabbitMQ");
         services.AddMassTransit(x =>
@@ -30,7 +30,7 @@ public static class ServiceCollectionExtensions
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(rabbitMqConfig["Host"], rabbitMqConfig["VirtualHost"], h =>
+                cfg.Host(host: rabbitMqConfig["Host"], port: Convert.ToUInt16(rabbitMqConfig["Port"]) , virtualHost: rabbitMqConfig["VirtualHost"], h =>
                 {
                     h.Username(rabbitMqConfig["Username"] ?? string.Empty);
                     h.Password(rabbitMqConfig["Password"] ?? string.Empty);
@@ -42,9 +42,28 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddDb(this IServiceCollection services, string connectionString)
+    private static IServiceCollection AddDb(this IServiceCollection services, string connectionString)
     {
         services.AddSingleton<IOrderRepository>(new OrderRepository(connectionString));
         return services;
+    }
+
+
+    public static IServiceCollection AddWorker(this IServiceCollection services, IConfiguration configuration)
+    {
+        var connectionString = configuration.GetConnectionString("BankDb")
+                               ?? throw new ArgumentException("Missing connection string");
+
+        services.AddDbMigrations(connectionString);
+        services.AddDb(connectionString);
+        services.AddMessaging(configuration);
+        return services;
+    }
+
+    public static void MigrateDb(this IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
+        runner.MigrateUp();
     }
 }

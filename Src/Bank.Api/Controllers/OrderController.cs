@@ -15,7 +15,7 @@ public class OrderController(
     SearchOrderApiRequestValidator searchRequestValidator
 ) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> CreateOrder([FromBody] CreteOrderRequest request, CancellationToken cancellationToken)
     {
         var validationResult = createOrderRequestValidator.Validate(request);
@@ -28,8 +28,8 @@ public class OrderController(
     }
 
 
-    [HttpGet]
-    public async Task<IActionResult> SearchOrder([FromQuery] SearchOrderApiRequest searchRequest, CancellationToken cancellationToken)
+    [HttpPost("search")]
+    public async Task<IActionResult> SearchOrder([FromBody] SearchOrderApiRequest searchRequest, CancellationToken cancellationToken)
     {
         var validationResult = searchRequestValidator.Validate(searchRequest);
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);

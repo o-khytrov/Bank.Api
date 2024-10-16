@@ -19,12 +19,11 @@ builder.Services.AddMassTransit(x =>
     var rabbitMqConfig = builder.Configuration.GetSection("RabbitMQ");
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(rabbitMqConfig["Host"], rabbitMqConfig["VirtualHost"], h =>
+        cfg.Host(host: rabbitMqConfig["Host"], port: Convert.ToUInt16(rabbitMqConfig["Port"]), virtualHost: rabbitMqConfig["VirtualHost"], h =>
         {
             h.Username(rabbitMqConfig["Username"] ?? string.Empty);
             h.Password(rabbitMqConfig["Password"] ?? string.Empty);
         });
-
         cfg.ConfigureEndpoints(context);
     });
 });
@@ -45,3 +44,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+}
