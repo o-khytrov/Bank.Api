@@ -12,7 +12,6 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
         await using var dbConnection = new NpgsqlConnection(connectionString);
         var parameters = new DynamicParameters();
 
-        // Add input parameters
         parameters.Add("p_clientid", order.ClientId);
         parameters.Add("p_address", order.Address);
         parameters.Add("p_amount", order.Amount);
@@ -30,15 +29,9 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
     {
         await using var dbConnection = new NpgsqlConnection(connectionString);
 
-        // Create DynamicParameters object
         var parameters = new DynamicParameters();
 
-        // Add parameters if they are provided
-        if (orderId.HasValue)
-            parameters.Add("p_orderid", orderId, DbType.Int32);
-        else
-            parameters.Add("p_orderid", null, DbType.Int32);
-
+        parameters.Add("p_orderid", orderId, DbType.Int32);
         parameters.Add("p_clientid", clientId, DbType.String);
         parameters.Add("p_address", address, DbType.String);
 

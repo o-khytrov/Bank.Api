@@ -11,48 +11,48 @@ CREATE TABLE Orders
 GO
 
 
-CREATE PROCEDURE InsertOrderProc @p_ClientId VARCHAR(128),
-                                 @p_Address VARCHAR(256),
-                                 @p_Amount DECIMAL(15, 2),
-                                 @p_Currency INT,
-                                 @p_ClientIp VARCHAR(128),
-                                 @p_OrderId INT OUTPUT
+CREATE PROCEDURE sp_order_insert @clientId VARCHAR(128),
+                                 @address VARCHAR(256),
+                                 @amount DECIMAL(15, 2),
+                                 @currency INT,
+                                 @clientIp VARCHAR(128),
+                                 @orderId INT OUTPUT
 AS
 BEGIN
     SET NOCOUNT ON;
 
 
     INSERT INTO Orders (ClientId, Address, Amount, Currency, ClientIp)
-    VALUES (@p_ClientId, @p_Address, @p_Amount, @p_Currency, @p_ClientIp);
+    VALUES (@clientId, @address, @amount, @currency, @clientIp);
 
 
-    SET @p_OrderId = SCOPE_IDENTITY();
+    SET @orderId = SCOPE_IDENTITY();
 END;
 GO
 
 
-CREATE PROCEDURE SearchOrdersProc @p_OrderId INT = NULL,
-                                  @p_ClientId VARCHAR(128) = NULL,
-                                  @p_Address VARCHAR(256) = NULL
+CREATE PROCEDURE sp_orders_search @orderId INT = NULL,
+                                  @clientId VARCHAR(128) = NULL,
+                                  @address VARCHAR(256) = NULL
 AS
 BEGIN
     SET NOCOUNT ON;
 
 
-    IF @p_OrderId IS NOT NULL
+    IF @orderId IS NOT NULL
         BEGIN
             SELECT *
             FROM Orders
-            WHERE OrderId = @p_OrderId;
+            WHERE OrderId = @orderId;
         END
 
     ELSE
-        IF @p_ClientId IS NOT NULL AND @p_Address IS NOT NULL
+        IF @clientId IS NOT NULL AND @address IS NOT NULL
             BEGIN
                 SELECT *
                 FROM Orders
-                WHERE ClientId = @p_ClientId
-                  AND Address = @p_Address;
+                WHERE ClientId = @clientId
+                  AND Address = @address;
             END
 
         ELSE
