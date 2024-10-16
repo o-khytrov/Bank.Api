@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C63AC7D3-13F7-4308-9326-5973B48DAF9C}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bank.Worker", "Bank.Worker\Bank.Worker.csproj", "{D98D34E2-B3F7-4A41-8520-D14B9FCF8F30}"
