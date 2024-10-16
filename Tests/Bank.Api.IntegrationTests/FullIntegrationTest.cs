@@ -68,11 +68,13 @@ public class FullIntegrationTest
     [TestCase(DbProvider.MsSql)]
     public async Task FullIntegrationTest_HappyPath(DbProvider dbProvider)
     {
+        // Arrange
         Environment.SetEnvironmentVariable(nameof(dbProvider), dbProvider.ToString());
         StartWorker();
         const string departmentAddress = "Kharkivs'ka St, 32";
         const string clientId = "14360570";
-        // Arrange & Act
+
+        // Act
         var createOrderHttpResponse = await _client.PostAsync("/order/create", new CreateOrderRequest(
             clientId,
             departmentAddress,
