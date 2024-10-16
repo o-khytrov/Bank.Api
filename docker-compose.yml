@@ -1,6 +1,7 @@
 ﻿services:
   bank.api:
     image: bank.api
+    container_name: bank-api
     build:
       context: .
       dockerfile: Bank.Api/Dockerfile
@@ -9,13 +10,15 @@
       - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
       - RabbitMQ__HostName=bank.rabbitmq
     depends_on:
-      - bank.postgres
-      - bank.rabbitmq
+      - bank.worker
     ports:
       - "8080:8080"
+    networks:
+      - bank-network
   
   bank.worker:
     image: bank.worker
+    container_name: bank-worker
     build:
       context: .
       dockerfile: Bank.Worker/Dockerfile
@@ -26,9 +29,12 @@
     depends_on:
       - bank.postgres
       - bank.rabbitmq
+    networks:
+      - bank-network
 
   bank.postgres:
     image: postgres:15
+    container_name: bank-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -37,15 +43,22 @@
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - bank-network
   
   bank.rabbitmq:
     image: rabbitmq:3-management
+    container_name: bank-rabbitmq
     ports:
       - "15672:15672"  # Management UI
       - "5672:5672"    # RabbitMQ port
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
-
+    networks:
+      - bank-network
 volumes:
   postgres_data:
+networks:
+  bank-network:
+    driver: bridge

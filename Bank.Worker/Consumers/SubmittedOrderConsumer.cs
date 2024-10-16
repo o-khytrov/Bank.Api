@@ -12,6 +12,6 @@ internal class SubmitOrderConsumer(ILogger<SubmitOrderConsumer> logger, IOrderRe
     {
         var orderId = await orderRepository.InsertOrder(context.Message.Order);
         logger.LogInformation($"Order submitted {JsonSerializer.Serialize(context.Message)}");
-        await context.RespondAsync(new OrderSubmitted { OrderId = orderId });
+        await context.RespondAsync(new SubmitOrderReply { OrderId = orderId });
     }
 }
