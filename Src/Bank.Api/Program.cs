@@ -18,7 +18,13 @@ builder.Services.AddControllers()
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(s => s.ExampleFilters());
+builder.Services.AddSwaggerGen(s =>
+{
+    s.ExampleFilters();
+    var xmlCommentsFile = "Bank.Api.xml";
+    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+    s.IncludeXmlComments(xmlCommentsFullPath);
+});
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddHttpContextAccessor();

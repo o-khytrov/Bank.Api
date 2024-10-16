@@ -17,6 +17,12 @@ public class OrderController(
     IHttpContextAccessor httpContextAccessor
 ) : ControllerBase
 {
+    /// <summary>
+    /// Create new order
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("create")]
     public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request, CancellationToken cancellationToken)
     {
@@ -29,7 +35,12 @@ public class OrderController(
         return Ok(new CreateOrderResponse(result.OrderId));
     }
 
-
+    /// <summary>
+    /// Search order by request_id, or client_id and department_address
+    /// </summary>
+    /// <param name="searchRequest"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
     [HttpPost("search")]
     public async Task<IActionResult> SearchOrder([FromBody] SearchOrderApiRequest searchRequest, CancellationToken cancellationToken)
     {
