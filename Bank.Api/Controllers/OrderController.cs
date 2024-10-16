@@ -19,8 +19,23 @@ public class OrderController(
         var validationResult = createOrderRequestValidator.Validate(request);
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
 
+        var ipAddress = GetClientIpAddress();
+
         var result = await mediator.Send(request, cancellationToken);
         return Ok(result);
+    }
+
+    private string GetClientIpAddress()
+    {
+        var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+
+
+        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6)
+        {
+            remoteIpAddress = remoteIpAddress.MapToIPv4();
+        }
+
+        return remoteIpAddress.ToString();
     }
 
     [HttpGet]
