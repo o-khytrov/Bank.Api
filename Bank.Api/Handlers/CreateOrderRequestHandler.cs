@@ -1,21 +1,22 @@
-﻿using Bank.Api.Models;
+﻿using Bank.Api.ApiModels.Responses;
+using Bank.Api.Commands;
 using Bank.Common;
 using MassTransit;
 using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestHandler<CreteOrderRequest, CreateOrderResponse>
+public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestHandler<CreateOrderCommand, CreateOrderResponse>
 {
-    public async Task<CreateOrderResponse> Handle(CreteOrderRequest request, CancellationToken cancellationToken)
+    public async Task<CreateOrderResponse> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
         var order = new Order
         {
-            ClientId = request.ClientId,
-            Address = request.DepartmentAddress,
-            Amount = request.Amount,
-            Currency = request.Currency,
-            ClientIp = request.ClientId
+            ClientId = command.ClientId,
+            Address = command.DepartmentAddress,
+            Amount = command.Amount,
+            Currency = command.Currency,
+            ClientIp = command.ClientId
         };
         var response = await client.GetResponse<OrderSubmitted>(order, cancellationToken);
 

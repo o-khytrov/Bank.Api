@@ -1,6 +1,7 @@
+using Bank.Api.ApiModels.Requests;
+using Bank.Api.ApiModels.Responses;
+using Bank.Api.ApiModels.Validation;
 using Bank.Api.Controllers;
-using Bank.Api.Models;
-using Bank.Api.Models.Validation;
 using Bank.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

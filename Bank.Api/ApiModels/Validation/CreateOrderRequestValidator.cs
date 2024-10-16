@@ -1,6 +1,7 @@
-﻿using FluentValidation;
+﻿using Bank.Api.ApiModels.Requests;
+using FluentValidation;
 
-namespace Bank.Api.Models.Validation;
+namespace Bank.Api.ApiModels.Validation;
 
 public class CreateOrderRequestValidator : AbstractValidator<CreteOrderRequest>
 {

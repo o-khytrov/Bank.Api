@@ -1,10 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 using Bank.Common;
-using MediatR;
 
-namespace Bank.Api.Models;
+namespace Bank.Api.ApiModels.Requests;
 
-public record CreteOrderRequest : IRequest<CreateOrderResponse>
+public record CreteOrderRequest
 {
     [JsonPropertyName("client_id")]
     public string ClientId { get; set; }
@@ -17,10 +16,4 @@ public record CreteOrderRequest : IRequest<CreateOrderResponse>
 
     [JsonPropertyName("currency")]
     public Currency Currency { get; set; }
-}
-
-public class CreateOrderResponse
-{
-    [JsonPropertyName("request_id:")]
-    public string OrderId { get; set; }
 }

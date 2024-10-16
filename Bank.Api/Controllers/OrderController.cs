@@ -1,5 +1,6 @@
-﻿using Bank.Api.Models;
-using Bank.Api.Models.Validation;
+﻿using Bank.Api.ApiModels.Requests;
+using Bank.Api.ApiModels.Validation;
+using Bank.Api.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,10 +19,10 @@ public class OrderController(
     {
         var validationResult = createOrderRequestValidator.Validate(request);
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
-
         var ipAddress = GetClientIpAddress();
+        var command = new CreateOrderCommand(request.ClientId, request.DepartmentAddress, request.Amount, request.Currency, ipAddress);
 
-        var result = await mediator.Send(request, cancellationToken);
+        var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
 
@@ -30,10 +31,7 @@ public class OrderController(
         var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
 
 
-        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6)
-        {
-            remoteIpAddress = remoteIpAddress.MapToIPv4();
-        }
+        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6) remoteIpAddress = remoteIpAddress.MapToIPv4();
 
         return remoteIpAddress.ToString();
     }
@@ -43,8 +41,8 @@ public class OrderController(
     {
         var validationResult = searchRequestValidator.Validate(searchRequest);
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
-
-        var result = await mediator.Send(searchRequest, cancellationToken);
+        var command = new SearchOrderCommand(searchRequest.OrderId, searchRequest.ClientId, searchRequest.DepartmentAddress);
+        var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }
 }

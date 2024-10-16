@@ -1,10 +1,8 @@
 using System.Text.Json.Serialization;
-using Bank.Common;
-using MediatR;
 
-namespace Bank.Api.Models;
+namespace Bank.Api.ApiModels.Requests;
 
-public record SearchOrderApiRequest : IRequest<IEnumerable<Order>>
+public record SearchOrderApiRequest
 {
     [JsonPropertyName("client_id")]
     public string? ClientId { get; set; }

@@ -1,4 +1,4 @@
-﻿using Bank.Api.Models;
+﻿using Bank.Api.ApiModels.Requests;
 using Bank.Common;
 using Swashbuckle.AspNetCore.Filters;
 
