@@ -13,7 +13,7 @@ public class SearchOrdersRequestHandler(IRequestClient<SearchOrderRequest> clien
         {
             DepartmentAddress = request.DepartmentAddress,
             OrderId = request.OrderId,
-            ClientId = request.ClientId,
+            ClientId = request.ClientId
         }, cancellationToken);
 
         return response.Message.Orders;

@@ -8,27 +8,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation" Version="11.10.0" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
-        <PackageReference Include="MassTransit" Version="8.3.0-develop.2073" />
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
-        <PackageReference Include="MediatR" Version="12.4.1" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-        <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
+        <PackageReference Include="FluentValidation" Version="11.10.0"/>
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0"/>
+        <PackageReference Include="MassTransit" Version="8.3.0-develop.2073"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5"/>
+        <PackageReference Include="MediatR" Version="12.4.1"/>
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0"/>
+        <PackageReference Include="RabbitMQ.Client" Version="6.8.1"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-      <Content Update="appsettings.Development.json">
-        <DependentUpon>appsettings.json</DependentUpon>
-      </Content>
+        <Content Include="..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
+        <Content Update="appsettings.Development.json">
+            <DependentUpon>appsettings.json</DependentUpon>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bank.Common\Bank.Common.csproj" />
+        <ProjectReference Include="..\Bank.Common\Bank.Common.csproj"/>
     </ItemGroup>
 
 </Project>

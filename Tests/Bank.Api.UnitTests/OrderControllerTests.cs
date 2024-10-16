@@ -1,5 +1,6 @@
 using Bank.Api.Controllers;
 using Bank.Api.Models;
+using Bank.Api.Models.Validation;
 using Bank.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class OrderControllerTests
     {
         _mediatorMock = new Mock<IMediator>();
 
-        _orderController = new OrderController(_mediatorMock.Object, new CreateOrderRequestValidator());
+        _orderController = new OrderController(_mediatorMock.Object, new CreateOrderRequestValidator(), new SearchOrderApiRequestValidator());
     }
 
     [Test]
