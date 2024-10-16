@@ -23,6 +23,7 @@ builder.Services.AddMassTransit(x =>
         {
             h.Username(rabbitMqConfig["Username"] ?? string.Empty);
             h.Password(rabbitMqConfig["Password"] ?? string.Empty);
+            
         });
         cfg.ConfigureEndpoints(context);
     });

@@ -5,18 +5,11 @@ using Npgsql;
 
 namespace Bank.Data.Repositories;
 
-public class OrderRepository : IOrderRepository
+public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
 {
-    private readonly string _connectionString;
-
-    public OrderRepository(string connectionString)
-    {
-        _connectionString = connectionString;
-    }
-
     public async Task<int> InsertOrder(Order order, CancellationToken cancellationToken = default)
     {
-        await using var dbConnection = new NpgsqlConnection(_connectionString);
+        await using var dbConnection = new NpgsqlConnection(connectionString);
         var parameters = new DynamicParameters();
 
         // Add input parameters
@@ -35,7 +28,7 @@ public class OrderRepository : IOrderRepository
 
     public async Task<IEnumerable<Order>> SearchOrders(int? orderId = null, string? clientId = null, string? address = null, CancellationToken cancellationToken = default)
     {
-        await using var dbConnection = new NpgsqlConnection(_connectionString);
+        await using var dbConnection = new NpgsqlConnection(connectionString);
 
         // Create DynamicParameters object
         var parameters = new DynamicParameters();

@@ -7,7 +7,6 @@
       dockerfile: Bank.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
       - RabbitMQ__Host=bank-rabbitmq
     depends_on:
       - bank.worker
@@ -24,11 +23,14 @@
       dockerfile: Bank.Worker/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__BankDb=Server=bank-postgres;Database=bankdb;User Id=postgres;Password=postgres;
+      - ConnectionStrings__BankDbPostgresql=Server=bank-postgres;Database=bankdb;User Id=postgres;Password=postgres;
+      - ConnectionStrings__BankDbMssql=Server=bank-mssql;Database=bankdb;User Id=sa;Password=Mssql!PasswOrd!;
       - RabbitMQ__Host=bank-rabbitmq
+      - DbProvider=Postgresql
     depends_on:
       - bank.postgres
       - bank.rabbitmq
+      - bank.mssql
     networks:
       - bank-network
 
@@ -50,15 +52,31 @@
     image: rabbitmq:3-management
     container_name: bank-rabbitmq
     ports:
-      - "15672:15672"  # Management UI
-      - "5672:5672"    # RabbitMQ port
+      - "15672:15672"
+      - "5672:5672"
     environment:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
     networks:
       - bank-network
+  
+  bank.mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: bank-mssql
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Mssql!PasswOrd!"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    networks:
+      - bank-network
+    volumes:
+      - mssql_data:/var/opt/mssql
+
 volumes:
   postgres_data:
+  mssql_data:
 networks:
   bank-network:
     driver: bridge
