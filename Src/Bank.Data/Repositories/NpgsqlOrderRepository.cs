@@ -20,7 +20,7 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
         parameters.Add("p_orderid", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 
-        await dbConnection.ExecuteAsync("InsertOrderProc", parameters, commandType: CommandType.StoredProcedure);
+        await dbConnection.ExecuteAsync("sp_order_insert", parameters, commandType: CommandType.StoredProcedure);
         var orderId = parameters.Get<int>("p_orderid");
         return orderId;
     }
@@ -35,7 +35,7 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
         parameters.Add("p_clientid", clientId, DbType.String);
         parameters.Add("p_address", address, DbType.String);
 
-        var orders = await dbConnection.QueryAsync<Order>("Select * FROM SearchOrdersProc(@p_orderid, @p_clientid, @p_address)", parameters, commandType: CommandType.Text);
+        var orders = await dbConnection.QueryAsync<Order>("Select * FROM fn_orders_search(@p_orderid, @p_clientid, @p_address)", parameters, commandType: CommandType.Text);
 
         return orders;
     }

@@ -19,46 +19,20 @@ public class FullIntegrationTest
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
-        _postgresContainer = new PostgreSqlBuilder()
-            .WithDatabase("bankdb")
-            .WithUsername("postgres")
-            .WithPassword("postgres")
-            .WithCleanUp(true)
-            .WithImage("postgres:latest")
-            .Build();
-
-
-        _rabbitMqContainer = new RabbitMqBuilder()
-            .WithUsername("user")
-            .WithPassword("password")
-            .WithCleanUp(true)
-            .WithImage("rabbitmq:management")
-            .Build();
-
-        _msSqlContainer = new MsSqlBuilder()
-            .WithPassword("yourStrong(!)Password")
-            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-            .Build();
-        await _postgresContainer.StartAsync();
-        await _rabbitMqContainer.StartAsync();
-        await _msSqlContainer.StartAsync();
-
-        Environment.SetEnvironmentVariable("RabbitMQ__Host", _rabbitMqContainer.Hostname);
-        Environment.SetEnvironmentVariable("RabbitMQ__Port", _rabbitMqContainer.GetMappedPublicPort(5672).ToString());
-        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbPostgresql", _postgresContainer.GetConnectionString());
-        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbMssql", _msSqlContainer.GetConnectionString());
+        InitPostgreSqlContainer();
+        InitMsSqlContainer();
+        InitRabbitMqContainer();
+        await StartContainers();
+        SetEnvironmentVariables();
     }
+
 
     [OneTimeTearDown]
     public async Task OneTimeTearDown()
     {
-        await _postgresContainer.StopAsync();
-        await _rabbitMqContainer.StopAsync();
-        await _msSqlContainer.StopAsync();
-        await _postgresContainer.DisposeAsync();
-        await _rabbitMqContainer.DisposeAsync();
-        await _msSqlContainer.DisposeAsync();
+        await StopAndDisposeContainers();
     }
+
 
     [SetUp]
     public void SetUp()
@@ -118,5 +92,59 @@ public class FullIntegrationTest
         var searchOrdersResponse = searchOrdersHttpResponseContent.Deserialize<SearchOrdersResponse>();
         searchOrdersResponse.Should().NotBeNull();
         searchOrdersResponse?.Orders.Should().NotBeEmpty();
+    }
+
+    private async Task StartContainers()
+    {
+        await _postgresContainer.StartAsync();
+        await _rabbitMqContainer.StartAsync();
+        await _msSqlContainer.StartAsync();
+    }
+
+    private void InitMsSqlContainer()
+    {
+        _msSqlContainer = new MsSqlBuilder()
+            .WithPassword("yourStrong(!)Password")
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+            .Build();
+    }
+
+    private void InitRabbitMqContainer()
+    {
+        _rabbitMqContainer = new RabbitMqBuilder()
+            .WithUsername("user")
+            .WithPassword("password")
+            .WithCleanUp(true)
+            .WithImage("rabbitmq:management")
+            .Build();
+    }
+
+    private void InitPostgreSqlContainer()
+    {
+        _postgresContainer = new PostgreSqlBuilder()
+            .WithDatabase("bankdb")
+            .WithUsername("postgres")
+            .WithPassword("postgres")
+            .WithCleanUp(true)
+            .WithImage("postgres:latest")
+            .Build();
+    }
+
+    private async Task StopAndDisposeContainers()
+    {
+        await _postgresContainer.StopAsync();
+        await _rabbitMqContainer.StopAsync();
+        await _msSqlContainer.StopAsync();
+        await _postgresContainer.DisposeAsync();
+        await _rabbitMqContainer.DisposeAsync();
+        await _msSqlContainer.DisposeAsync();
+    }
+
+    private void SetEnvironmentVariables()
+    {
+        Environment.SetEnvironmentVariable("RabbitMQ__Host", _rabbitMqContainer.Hostname);
+        Environment.SetEnvironmentVariable("RabbitMQ__Port", _rabbitMqContainer.GetMappedPublicPort(5672).ToString());
+        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbPostgresql", _postgresContainer.GetConnectionString());
+        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbMssql", _msSqlContainer.GetConnectionString());
     }
 }
