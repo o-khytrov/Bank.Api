@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Bank.Api</name>
+    </assembly>
+    <members>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.OrderId">
+            <summary>
+                Id of the order
+            </summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.ClientId">
+            <summary>
+                Unique identifier for the client placing the order
+            </summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.DepartmentAddress">
+            <summary>
+                Address of the department
+            </summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.Amount">
+            <summary>
+                The amount of money involved in the order
+            </summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.Currency">
+            <summary>
+                The currency type used for the order (e.g., UAH, USD, EUR)
+            </summary>
+        </member>
+        <member name="M:Bank.Api.Controllers.OrderController.CreateOrder(Bank.Api.ApiModels.Requests.CreateOrderRequest,System.Threading.CancellationToken)">
+            <summary>
+            Create new order
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Bank.Api.Controllers.OrderController.SearchOrder(Bank.Api.ApiModels.Requests.SearchOrderApiRequest,System.Threading.CancellationToken)">
+            <summary>
+            Search order by request_id, or client_id and department_address
+            </summary>
+            <param name="searchRequest"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
