@@ -35,7 +35,6 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
         parameters.Add("p_clientid", clientId, DbType.String);
         parameters.Add("p_address", address, DbType.String);
 
-        // Execute the stored procedure and return the results
         var orders = await dbConnection.QueryAsync<Order>("Select * FROM SearchOrdersProc(@p_orderid, @p_clientid, @p_address)", parameters, commandType: CommandType.Text);
 
         return orders;

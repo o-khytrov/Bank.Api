@@ -13,17 +13,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(s => s.ExampleFilters());
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddMassTransit(x =>
 {
     var rabbitMqConfig = builder.Configuration.GetSection("RabbitMQ");
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(host: rabbitMqConfig["Host"], port: Convert.ToUInt16(rabbitMqConfig["Port"]), virtualHost: rabbitMqConfig["VirtualHost"], h =>
+        cfg.Host(rabbitMqConfig["Host"], Convert.ToUInt16(rabbitMqConfig["Port"]), rabbitMqConfig["VirtualHost"], h =>
         {
             h.Username(rabbitMqConfig["Username"] ?? string.Empty);
             h.Password(rabbitMqConfig["Password"] ?? string.Empty);
-            
         });
         cfg.ConfigureEndpoints(context);
     });

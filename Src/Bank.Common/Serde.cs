@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Mime;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -34,6 +35,6 @@ public static class Serde
     {
         // Create a JsonContent object with the serialized JSON string
         return new StringContent(obj.Serialize(options), Encoding.UTF8,
-            System.Net.Mime.MediaTypeNames.Application.Json);
+            MediaTypeNames.Application.Json);
     }
 }

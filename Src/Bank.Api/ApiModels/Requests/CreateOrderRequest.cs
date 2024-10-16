@@ -3,7 +3,7 @@ using Bank.Common;
 
 namespace Bank.Api.ApiModels.Requests;
 
-public record CreteOrderRequest(
+public record CreateOrderRequest(
     [property: JsonPropertyName("client_id")]
     string ClientId,
     [property: JsonPropertyName("department_address")]

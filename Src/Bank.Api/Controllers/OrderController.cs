@@ -12,11 +12,12 @@ namespace Bank.Api.Controllers;
 public class OrderController(
     IMediator mediator,
     CreateOrderRequestValidator createOrderRequestValidator,
-    SearchOrderApiRequestValidator searchRequestValidator
+    SearchOrderApiRequestValidator searchRequestValidator,
+    IHttpContextAccessor httpContextAccessor
 ) : ControllerBase
 {
     [HttpPost("create")]
-    public async Task<IActionResult> CreateOrder([FromBody] CreteOrderRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request, CancellationToken cancellationToken)
     {
         var validationResult = createOrderRequestValidator.Validate(request);
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
@@ -40,7 +41,7 @@ public class OrderController(
 
     private string? GetClientIpAddress()
     {
-        var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+        var remoteIpAddress = httpContextAccessor.HttpContext?.Connection.RemoteIpAddress;
 
 
         if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6) remoteIpAddress = remoteIpAddress.MapToIPv4();

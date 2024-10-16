@@ -15,16 +15,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Migrations\MsSql\InidialMigration.Down.Sql" />
-        <EmbeddedResource Include="Migrations\MsSql\InitialMigration.Up.sql" />
-        <EmbeddedResource Include="Migrations\PostgreSql\InidialMigration.Down.Sql" />
-        <EmbeddedResource Include="Migrations\PostgreSql\InitialMigration.Up.sql" />
+        <EmbeddedResource Include="Migrations\MsSql\InidialMigration.Down.Sql"/>
+        <EmbeddedResource Include="Migrations\MsSql\InitialMigration.Up.sql"/>
+        <EmbeddedResource Include="Migrations\PostgreSql\InidialMigration.Down.Sql"/>
+        <EmbeddedResource Include="Migrations\PostgreSql\InitialMigration.Up.sql"/>
         <None Remove="Migrations\InidialMigration.Down.Sql"/>
         <None Remove="Migrations\InitialMigration.Up.sql"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Bank.Common\Bank.Common.csproj" />
+        <ProjectReference Include="..\Bank.Common\Bank.Common.csproj"/>
     </ItemGroup>
 
 </Project>

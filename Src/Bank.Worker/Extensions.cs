@@ -44,7 +44,7 @@ public static class ServiceCollectionExtensions
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host(host: rabbitMqConfig["Host"], port: Convert.ToUInt16(rabbitMqConfig["Port"]), virtualHost: rabbitMqConfig["VirtualHost"], h =>
+                cfg.Host(rabbitMqConfig["Host"], Convert.ToUInt16(rabbitMqConfig["Port"]), rabbitMqConfig["VirtualHost"], h =>
                 {
                     h.Username(rabbitMqConfig["Username"] ?? string.Empty);
                     h.Password(rabbitMqConfig["Password"] ?? string.Empty);

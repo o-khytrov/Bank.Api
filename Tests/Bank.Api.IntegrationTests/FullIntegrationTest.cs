@@ -16,14 +16,6 @@ namespace Bank.Api.IntegrationTests;
 [TestFixture]
 public class FullIntegrationTest
 {
-    private WebApplicationFactory<Program> _factory;
-    private HttpClient _client;
-    private PostgreSqlContainer _postgresContainer;
-    private RabbitMqContainer _rabbitMqContainer;
-    private MsSqlContainer _msSqlContainer;
-    private IHost _workerHost;
-
-
     [OneTimeSetUp]
     public async Task OneTimeSetUp()
     {
@@ -74,7 +66,7 @@ public class FullIntegrationTest
         _factory = new WebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
-        _workerHost = Bank.Worker.Program.CreateWorkerHost([]);
+        _workerHost = Worker.Program.CreateWorkerHost([]);
         _workerHost.Services.MigrateDb();
         _workerHost.Start();
     }
@@ -88,6 +80,13 @@ public class FullIntegrationTest
         _workerHost.Dispose();
     }
 
+    private WebApplicationFactory<Program> _factory;
+    private HttpClient _client;
+    private PostgreSqlContainer _postgresContainer;
+    private RabbitMqContainer _rabbitMqContainer;
+    private MsSqlContainer _msSqlContainer;
+    private IHost _workerHost;
+
     [TestCase(DbProvider.PostgreSql)]
     [TestCase(DbProvider.MsSql)]
     public async Task FullIntegrationTest_HappyPath(DbProvider dbProvider)
@@ -96,11 +95,11 @@ public class FullIntegrationTest
         const string departmentAddress = "Kharkivs'ka St, 32";
         const string clientId = "14360570";
         // Arrange & Act
-        var createOrderHttpResponse = await _client.PostAsync("/order/create", new CreteOrderRequest(
-            ClientId: clientId,
-            DepartmentAddress: departmentAddress,
-            Amount: 500,
-            Currency: Currency.UAH
+        var createOrderHttpResponse = await _client.PostAsync("/order/create", new CreateOrderRequest(
+            clientId,
+            departmentAddress,
+            500,
+            Currency.UAH
         ).ToJsonContent());
 
         // Assert
@@ -111,7 +110,7 @@ public class FullIntegrationTest
         createOrderResponse?.OrderId.Should().Be(1);
 
         var searchOrdersHttpResponse = await _client.PostAsync("/order/search", new SearchOrderApiRequest(
-            ClientId: clientId, DepartmentAddress: departmentAddress
+            clientId, departmentAddress
         ).ToJsonContent());
 
 

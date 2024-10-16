@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Bank.Common;
 using Bank.Common.Messaging;
 using Bank.Data.Repositories;
 using MassTransit;
