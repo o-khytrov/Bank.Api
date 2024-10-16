@@ -10,6 +10,6 @@ public record SearchOrderApiRequest
     [JsonPropertyName("department_address")]
     public string? DepartmentAddress { get; set; }
 
-    [JsonPropertyName("request_id:")]
+    [JsonPropertyName("request_id")]
     public int? OrderId { get; set; }
 }

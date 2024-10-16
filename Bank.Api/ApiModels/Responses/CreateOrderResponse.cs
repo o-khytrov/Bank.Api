@@ -4,6 +4,6 @@ namespace Bank.Api.ApiModels.Responses;
 
 public record CreateOrderResponse
 {
-    [JsonPropertyName("request_id:")]
+    [JsonPropertyName("request_id")]
     public string OrderId { get; set; }
 }

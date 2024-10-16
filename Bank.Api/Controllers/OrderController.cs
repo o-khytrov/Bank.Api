@@ -1,4 +1,5 @@
 ﻿using Bank.Api.ApiModels.Requests;
+using Bank.Api.ApiModels.Responses;
 using Bank.Api.ApiModels.Validation;
 using Bank.Api.Commands;
 using MediatR;
@@ -43,6 +44,6 @@ public class OrderController(
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
         var command = new SearchOrderCommand(searchRequest.OrderId, searchRequest.ClientId, searchRequest.DepartmentAddress);
         var result = await mediator.Send(command, cancellationToken);
-        return Ok(result);
+        return Ok(new SearchOrdersResponse(result.Orders));
     }
 }

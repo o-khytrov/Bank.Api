@@ -9,9 +9,6 @@ public record CreateOrderCommand(
     string DepartmentAddress,
     decimal Amount,
     Currency Currency,
-    string ClientIpAddress) : IRequest<CreateOrderResponse>;
+    string ClientIpAddress) : IRequest<CreateOrderCommandResult>;
 
-public record SearchOrderCommand(
-    int? OrderId = null,
-    string? ClientId = null,
-    string? DepartmentAddress = null) : IRequest<IEnumerable<Order>>;
+public record CreateOrderCommandResult(int OrderId);

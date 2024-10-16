@@ -17,3 +17,12 @@ public class CreateOrderRequestExamples : IMultipleExamplesProvider<CreteOrderRe
         });
     }
 }
+
+public class SearchOrdersRequestExamples : IMultipleExamplesProvider<SearchOrderApiRequest>
+{
+    public IEnumerable<SwaggerExample<SearchOrderApiRequest>> GetExamples()
+    {
+        yield return SwaggerExample.Create("Search by OrderId", new SearchOrderApiRequest() { ClientId = "14360570" });
+        yield return SwaggerExample.Create("Search by ClientId and DepartmentAddress", new SearchOrderApiRequest { ClientId = "14360570", DepartmentAddress = "Kharkivs'ka St, 32", });
+    }
+}

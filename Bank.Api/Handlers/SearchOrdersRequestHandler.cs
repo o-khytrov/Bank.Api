@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class SearchOrdersRequestHandler(IRequestClient<SearchOrderRequest> client) : IRequestHandler<SearchOrderCommand, IEnumerable<Order>>
+public class SearchOrdersRequestHandler(IRequestClient<SearchOrderRequest> client) : IRequestHandler<SearchOrderCommand, SearchOrdersCommandResult>
 {
-    public async Task<IEnumerable<Order>> Handle(SearchOrderCommand request, CancellationToken cancellationToken)
+    public async Task<SearchOrdersCommandResult> Handle(SearchOrderCommand request, CancellationToken cancellationToken)
     {
         var response = await client.GetResponse<OrderSearchResult>(new SearchOrderRequest
         {
@@ -16,6 +16,6 @@ public class SearchOrdersRequestHandler(IRequestClient<SearchOrderRequest> clien
             ClientId = request.ClientId
         }, cancellationToken);
 
-        return response.Message.Orders;
+        return new SearchOrdersCommandResult(response.Message.Orders);
     }
 }

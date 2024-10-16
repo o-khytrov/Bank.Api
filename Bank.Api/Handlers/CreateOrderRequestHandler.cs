@@ -6,9 +6,9 @@ using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestHandler<CreateOrderCommand, CreateOrderResponse>
+public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestHandler<CreateOrderCommand, CreateOrderCommandResult>
 {
-    public async Task<CreateOrderResponse> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
+    public async Task<CreateOrderCommandResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
         var order = new Order
         {
@@ -20,6 +20,6 @@ public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestH
         };
         var response = await client.GetResponse<OrderSubmitted>(order, cancellationToken);
 
-        return new CreateOrderResponse { OrderId = response.Message.OrderId.ToString() };
+        return new CreateOrderCommandResult(response.Message.OrderId);
     }
 }
