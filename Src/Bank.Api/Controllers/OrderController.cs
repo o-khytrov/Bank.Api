@@ -71,13 +71,13 @@ public class OrderController(
         return Ok(new SearchOrdersResponse(result.Orders.Select(x => new OrderApiModel(x))));
     }
 
-    private string? GetClientIpAddress()
+    private string GetClientIpAddress()
     {
         var remoteIpAddress = httpContextAccessor.HttpContext?.Connection.RemoteIpAddress;
 
 
         if (remoteIpAddress is { IsIPv4MappedToIPv6: true }) remoteIpAddress = remoteIpAddress.MapToIPv4();
 
-        return remoteIpAddress?.ToString();
+        return remoteIpAddress?.ToString() ?? "unknown";
     }
 }

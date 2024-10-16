@@ -3,8 +3,10 @@ using FluentValidation;
 
 namespace Bank.Api.ApiModels.Validation;
 
+/// <inheritdoc />
 public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
 {
+    /// <inheritdoc />
     public CreateOrderRequestValidator()
     {
         RuleFor(r => r.Amount)

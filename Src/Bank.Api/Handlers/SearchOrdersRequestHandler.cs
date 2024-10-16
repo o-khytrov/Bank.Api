@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class SearchOrdersRequestHandler(IRequestClient<SearchOrderMessage> client) : IRequestHandler<SearchOrderCommand, SearchOrdersCommandResult>
+internal class SearchOrdersRequestHandler(IRequestClient<SearchOrderMessage> client) : IRequestHandler<SearchOrderCommand, SearchOrdersCommandResult>
 {
     public async Task<SearchOrdersCommandResult> Handle(SearchOrderCommand request, CancellationToken cancellationToken)
     {

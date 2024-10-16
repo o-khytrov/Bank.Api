@@ -4,6 +4,22 @@
         <name>Bank.Api</name>
     </assembly>
     <members>
+        <member name="T:Bank.Api.ApiModels.OrderApiModel">
+            <summary>
+            Represent the order 
+            </summary>
+        </member>
+        <member name="M:Bank.Api.ApiModels.OrderApiModel.#ctor">
+            <summary>
+            Default constructor (For testing)
+            </summary>
+        </member>
+        <member name="M:Bank.Api.ApiModels.OrderApiModel.#ctor(Bank.Common.Order)">
+            <summary>
+            Creates OrderApiModel from Order 
+            </summary>
+            <param name="order"></param>
+        </member>
         <member name="P:Bank.Api.ApiModels.OrderApiModel.OrderId">
             <summary>
                 Id of the order
@@ -28,6 +44,145 @@
             <summary>
                 The currency type used for the order (e.g., UAH, USD, EUR)
             </summary>
+        </member>
+        <member name="T:Bank.Api.ApiModels.Requests.CreateOrderRequest">
+            <summary>
+            Request for submitting new order
+            </summary>
+            <param name="ClientId"></param>
+            <param name="DepartmentAddress"></param>
+            <param name="Amount"></param>
+            <param name="Currency"></param>
+        </member>
+        <member name="M:Bank.Api.ApiModels.Requests.CreateOrderRequest.#ctor(System.String,System.String,System.Decimal,Bank.Common.Currency)">
+            <summary>
+            Request for submitting new order
+            </summary>
+            <param name="ClientId"></param>
+            <param name="DepartmentAddress"></param>
+            <param name="Amount"></param>
+            <param name="Currency"></param>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.CreateOrderRequest.ClientId">
+            <summary></summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.CreateOrderRequest.DepartmentAddress">
+            <summary></summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.CreateOrderRequest.Amount">
+            <summary></summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.CreateOrderRequest.Currency">
+            <summary></summary>
+        </member>
+        <member name="T:Bank.Api.ApiModels.Requests.SearchOrderApiRequest">
+            <summary>
+            Request for searching orders
+            </summary>
+            <param name="ClientId"></param>
+            <param name="DepartmentAddress"></param>
+            <param name="OrderId"></param>
+        </member>
+        <member name="M:Bank.Api.ApiModels.Requests.SearchOrderApiRequest.#ctor(System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Request for searching orders
+            </summary>
+            <param name="ClientId"></param>
+            <param name="DepartmentAddress"></param>
+            <param name="OrderId"></param>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.SearchOrderApiRequest.ClientId">
+            <summary></summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.SearchOrderApiRequest.DepartmentAddress">
+            <summary></summary>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Requests.SearchOrderApiRequest.OrderId">
+            <summary></summary>
+        </member>
+        <member name="T:Bank.Api.ApiModels.Responses.CreateOrderResponse">
+            <summary>
+            Response for successfully created order
+            </summary>
+            <param name="OrderId"></param>
+        </member>
+        <member name="M:Bank.Api.ApiModels.Responses.CreateOrderResponse.#ctor(System.Int32)">
+            <summary>
+            Response for successfully created order
+            </summary>
+            <param name="OrderId"></param>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Responses.CreateOrderResponse.OrderId">
+            <summary></summary>
+        </member>
+        <member name="T:Bank.Api.ApiModels.Responses.SearchOrdersResponse">
+            <summary>
+            Response for found orders
+            </summary>
+            <param name="Orders"></param>
+        </member>
+        <member name="M:Bank.Api.ApiModels.Responses.SearchOrdersResponse.#ctor(System.Collections.Generic.IEnumerable{Bank.Api.ApiModels.OrderApiModel})">
+            <summary>
+            Response for found orders
+            </summary>
+            <param name="Orders"></param>
+        </member>
+        <member name="P:Bank.Api.ApiModels.Responses.SearchOrdersResponse.Orders">
+            <summary></summary>
+        </member>
+        <member name="T:Bank.Api.ApiModels.Validation.CreateOrderRequestValidator">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.ApiModels.Validation.CreateOrderRequestValidator.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="T:Bank.Api.ApiModels.Validation.SearchOrderApiRequestValidator">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.ApiModels.Validation.SearchOrderApiRequestValidator.#ctor">
+            <inheritdoc />
+        </member>
+        <member name="T:Bank.Api.Commands.CreateOrderCommand">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.Commands.CreateOrderCommand.#ctor(System.String,System.String,System.Decimal,Bank.Common.Currency,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bank.Api.Commands.CreateOrderCommandResult">
+            <summary>
+            CreateOrderCommandResult
+            </summary>
+            <param name="OrderId"></param>
+        </member>
+        <member name="M:Bank.Api.Commands.CreateOrderCommandResult.#ctor(System.Int32)">
+            <summary>
+            CreateOrderCommandResult
+            </summary>
+            <param name="OrderId"></param>
+        </member>
+        <member name="P:Bank.Api.Commands.CreateOrderCommandResult.OrderId">
+            <summary></summary>
+        </member>
+        <member name="T:Bank.Api.Commands.SearchOrderCommand">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.Commands.SearchOrderCommand.#ctor(System.Nullable{System.Int32},System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Bank.Api.Commands.SearchOrdersCommandResult">
+            <summary>
+            SearchOrdersCommandResult
+            </summary>
+            <param name="Orders"></param>
+        </member>
+        <member name="M:Bank.Api.Commands.SearchOrdersCommandResult.#ctor(System.Collections.Generic.IEnumerable{Bank.Common.Order})">
+            <summary>
+            SearchOrdersCommandResult
+            </summary>
+            <param name="Orders"></param>
+        </member>
+        <member name="P:Bank.Api.Commands.SearchOrdersCommandResult.Orders">
+            <summary></summary>
         </member>
         <member name="T:Bank.Api.Controllers.OrderController">
             <summary>
@@ -57,6 +212,7 @@
             </remarks>
             <response code="200">When the request has been successful.</response>
             <response code="400">When there was an incorrect user input.</response>
+            <response code="500">When there was an unexpected problem while processing the request</response>
             <param name="request"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
@@ -70,9 +226,27 @@
             </remarks>
             <response code="200">When the request has been successful.</response>
             <response code="400">When there was an incorrect user input.</response>
+            <response code="500">When there was an unexpected problem while processing the request</response>
             <param name="searchRequest"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="T:Bank.Api.Examples.CreateOrderRequestExamples">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.Examples.CreateOrderRequestExamples.GetExamples">
+            <inheritdoc />
+        </member>
+        <member name="T:Bank.Api.Examples.SearchOrdersRequestExamples">
+            <inheritdoc />
+        </member>
+        <member name="M:Bank.Api.Examples.SearchOrdersRequestExamples.GetExamples">
+            <inheritdoc />
+        </member>
+        <member name="T:Program">
+            <summary>
+            Added for accessibility in tests
+            </summary>
         </member>
     </members>
 </doc>

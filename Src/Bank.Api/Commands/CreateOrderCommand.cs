@@ -3,11 +3,18 @@ using MediatR;
 
 namespace Bank.Api.Commands;
 
+/// <inheritdoc />
 public record CreateOrderCommand(
     string ClientId,
     string DepartmentAddress,
     decimal Amount,
     Currency Currency,
-    string? ClientIpAddress = null) : IRequest<CreateOrderCommandResult>;
+    string ClientIpAddress) : IRequest<CreateOrderCommandResult>;
 
-public record CreateOrderCommandResult(int OrderId);
+/// <summary>
+/// CreateOrderCommandResult
+/// </summary>
+/// <param name="OrderId"></param>
+public record CreateOrderCommandResult(
+    int OrderId
+);

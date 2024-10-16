@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class CreateOrderRequestHandler(IRequestClient<SubmitOrderMessage> client) : IRequestHandler<CreateOrderCommand, CreateOrderCommandResult>
+internal class CreateOrderRequestHandler(IRequestClient<SubmitOrderMessage> client) : IRequestHandler<CreateOrderCommand, CreateOrderCommandResult>
 {
     public async Task<CreateOrderCommandResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {

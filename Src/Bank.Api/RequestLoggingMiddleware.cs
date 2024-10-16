@@ -1,6 +1,6 @@
 ﻿namespace Bank.Api;
 
-public class RequestLoggingMiddleware
+internal class RequestLoggingMiddleware
 {
     private readonly ILogger<RequestLoggingMiddleware> _logger;
     private readonly RequestDelegate _next;

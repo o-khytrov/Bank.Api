@@ -3,12 +3,22 @@ using Bank.Common;
 
 namespace Bank.Api.ApiModels;
 
+/// <summary>
+/// Represent the order 
+/// </summary>
 public class OrderApiModel
 {
+    /// <summary>
+    /// Default constructor (For testing)
+    /// </summary>
     public OrderApiModel()
     {
     }
 
+    /// <summary>
+    /// Creates OrderApiModel from Order 
+    /// </summary>
+    /// <param name="order"></param>
     public OrderApiModel(Order order)
     {
         OrderId = order.OrderId;
@@ -28,14 +38,14 @@ public class OrderApiModel
     ///     Unique identifier for the client placing the order
     /// </summary>
     [JsonPropertyName("client_id")]
-    public string ClientId { get; set; }
+    public string ClientId { get; set; } = null!;
 
     /// <summary>
     ///     Address of the department
     /// </summary>
 
     [JsonPropertyName("department_address")]
-    public string DepartmentAddress { get; set; }
+    public string DepartmentAddress { get; set; } = null!;
 
     /// <summary>
     ///     The amount of money involved in the order

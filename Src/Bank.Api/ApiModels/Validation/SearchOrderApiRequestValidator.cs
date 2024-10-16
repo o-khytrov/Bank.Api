@@ -3,8 +3,10 @@ using FluentValidation;
 
 namespace Bank.Api.ApiModels.Validation;
 
+/// <inheritdoc />
 public class SearchOrderApiRequestValidator : AbstractValidator<SearchOrderApiRequest>
 {
+    /// <inheritdoc />
     public SearchOrderApiRequestValidator()
     {
         RuleFor(x => x.OrderId).NotEmpty()
