@@ -8,6 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bank.Api.Controllers;
 
+/// <summary>
+///  APIs to create orders and search orders in the bank system
+/// </summary>
+/// <param name="mediator"></param>
+/// <param name="createOrderRequestValidator"></param>
+/// <param name="searchRequestValidator"></param>
+/// <param name="httpContextAccessor"></param>
 [ApiController]
 [Route("[controller]")]
 public class OrderController(
@@ -20,6 +27,13 @@ public class OrderController(
     /// <summary>
     /// Create new order
     /// </summary>
+    /// <remarks>
+    /// This endpoint allows clients to create a new order by providing necessary order details, such as the client ID, department address, order amount, and currency.
+    /// Additionally, the server captures the client’s IP address for auditing and validation purposes.
+    /// </remarks>
+    /// <response code="200">When the request has been successful.</response>
+    /// <response code="400">When there was an incorrect user input.</response>
+    /// <response code="500">When there was an unexpected problem while processing the request</response>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -38,6 +52,12 @@ public class OrderController(
     /// <summary>
     /// Search order by request_id, or client_id and department_address
     /// </summary>
+    /// <remarks>
+    /// This endpoint allows clients to search for orders based on either the Order ID or a combination of Client ID and Department Address. 
+    /// </remarks>
+    /// <response code="200">When the request has been successful.</response>
+    /// <response code="400">When there was an incorrect user input.</response>
+    /// <response code="500">When there was an unexpected problem while processing the request</response>
     /// <param name="searchRequest"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>

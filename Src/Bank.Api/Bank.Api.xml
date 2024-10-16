@@ -29,10 +29,34 @@
                 The currency type used for the order (e.g., UAH, USD, EUR)
             </summary>
         </member>
+        <member name="T:Bank.Api.Controllers.OrderController">
+            <summary>
+             APIs to create orders and search orders in the bank system
+            </summary>
+            <param name="mediator"></param>
+            <param name="createOrderRequestValidator"></param>
+            <param name="searchRequestValidator"></param>
+            <param name="httpContextAccessor"></param>
+        </member>
+        <member name="M:Bank.Api.Controllers.OrderController.#ctor(MediatR.IMediator,Bank.Api.ApiModels.Validation.CreateOrderRequestValidator,Bank.Api.ApiModels.Validation.SearchOrderApiRequestValidator,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+             APIs to create orders and search orders in the bank system
+            </summary>
+            <param name="mediator"></param>
+            <param name="createOrderRequestValidator"></param>
+            <param name="searchRequestValidator"></param>
+            <param name="httpContextAccessor"></param>
+        </member>
         <member name="M:Bank.Api.Controllers.OrderController.CreateOrder(Bank.Api.ApiModels.Requests.CreateOrderRequest,System.Threading.CancellationToken)">
             <summary>
             Create new order
             </summary>
+            <remarks>
+            This endpoint allows clients to create a new order by providing necessary order details, such as the client ID, department address, order amount, and currency.
+            Additionally, the server captures the client’s IP address for auditing and validation purposes.
+            </remarks>
+            <response code="200">When the request has been successful.</response>
+            <response code="400">When there was an incorrect user input.</response>
             <param name="request"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
@@ -41,6 +65,11 @@
             <summary>
             Search order by request_id, or client_id and department_address
             </summary>
+            <remarks>
+            This endpoint allows clients to search for orders based on either the Order ID or a combination of Client ID and Department Address. 
+            </remarks>
+            <response code="200">When the request has been successful.</response>
+            <response code="400">When there was an incorrect user input.</response>
             <param name="searchRequest"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
