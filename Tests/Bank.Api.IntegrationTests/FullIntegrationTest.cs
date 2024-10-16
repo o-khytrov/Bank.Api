@@ -2,10 +2,12 @@
 using Bank.Api.ApiModels.Requests;
 using Bank.Api.ApiModels.Responses;
 using Bank.Common;
+using Bank.Data;
 using Bank.Worker;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
+using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
 using Testcontainers.RabbitMq;
 
@@ -18,6 +20,7 @@ public class FullIntegrationTest
     private HttpClient _client;
     private PostgreSqlContainer _postgresContainer;
     private RabbitMqContainer _rabbitMqContainer;
+    private MsSqlContainer _msSqlContainer;
     private IHost _workerHost;
 
 
@@ -40,16 +43,18 @@ public class FullIntegrationTest
             .WithImage("rabbitmq:management")
             .Build();
 
+        _msSqlContainer = new MsSqlBuilder()
+            .WithPassword("yourStrong(!)Password")
+            .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
+            .Build();
         await _postgresContainer.StartAsync();
         await _rabbitMqContainer.StartAsync();
+        await _msSqlContainer.StartAsync();
 
-        var rabbitConnection = _rabbitMqContainer.GetConnectionString();
         Environment.SetEnvironmentVariable("RabbitMQ__Host", _rabbitMqContainer.Hostname);
         Environment.SetEnvironmentVariable("RabbitMQ__Port", _rabbitMqContainer.GetMappedPublicPort(5672).ToString());
-        Environment.SetEnvironmentVariable("ConnectionStrings__BankDb", _postgresContainer.GetConnectionString());
-        _workerHost = Bank.Worker.Program.CreateWorkerHost([]);
-        _workerHost.Services.MigrateDb();
-        await _workerHost.StartAsync();
+        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbPostgresql", _postgresContainer.GetConnectionString());
+        Environment.SetEnvironmentVariable("ConnectionStrings__BankDbMssql", _msSqlContainer.GetConnectionString());
     }
 
     [OneTimeTearDown]
@@ -57,10 +62,10 @@ public class FullIntegrationTest
     {
         await _postgresContainer.StopAsync();
         await _rabbitMqContainer.StopAsync();
+        await _msSqlContainer.StopAsync();
         await _postgresContainer.DisposeAsync();
         await _rabbitMqContainer.DisposeAsync();
-        await _workerHost.StopAsync();
-        _workerHost.Dispose();
+        await _msSqlContainer.DisposeAsync();
     }
 
     [SetUp]
@@ -69,6 +74,9 @@ public class FullIntegrationTest
         _factory = new WebApplicationFactory<Program>();
 
         _client = _factory.CreateClient();
+        _workerHost = Bank.Worker.Program.CreateWorkerHost([]);
+        _workerHost.Services.MigrateDb();
+        _workerHost.Start();
     }
 
     [TearDown]
@@ -76,11 +84,15 @@ public class FullIntegrationTest
     {
         _client.Dispose();
         _factory.Dispose();
+        _workerHost.StopAsync().GetAwaiter().GetResult();
+        _workerHost.Dispose();
     }
 
-    [Test]
-    public async Task FullIntegrationTest_HappyPath()
+    [TestCase(DbProvider.PostgreSql)]
+    [TestCase(DbProvider.MsSql)]
+    public async Task FullIntegrationTest_HappyPath(DbProvider dbProvider)
     {
+        Environment.SetEnvironmentVariable(nameof(dbProvider), dbProvider.ToString());
         const string departmentAddress = "Kharkivs'ka St, 32";
         const string clientId = "14360570";
         // Arrange & Act
