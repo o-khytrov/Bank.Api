@@ -11,10 +11,7 @@ internal class Helper
         var resourceName = $"{Assembly.GetExecutingAssembly().GetName().Name}.{statementName}";
 
         using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-        if (stream != null)
-        {
-            sqlStatement = new StreamReader(stream).ReadToEnd();
-        }
+        if (stream != null) sqlStatement = new StreamReader(stream).ReadToEnd();
 
         return sqlStatement;
     }

@@ -1,15 +1,15 @@
 using Bank.Api.Commands;
-using Bank.Common;
+using Bank.Common.Messaging;
 using MassTransit;
 using MediatR;
 
 namespace Bank.Api.Handlers;
 
-public class SearchOrdersRequestHandler(IRequestClient<SearchOrderRequest> client) : IRequestHandler<SearchOrderCommand, SearchOrdersCommandResult>
+public class SearchOrdersRequestHandler(IRequestClient<SearchOrderMessage> client) : IRequestHandler<SearchOrderCommand, SearchOrdersCommandResult>
 {
     public async Task<SearchOrdersCommandResult> Handle(SearchOrderCommand request, CancellationToken cancellationToken)
     {
-        var response = await client.GetResponse<OrderSearchResult>(new SearchOrderRequest
+        var response = await client.GetResponse<SearchOrdersReply>(new SearchOrderMessage
         {
             DepartmentAddress = request.DepartmentAddress,
             OrderId = request.OrderId,

@@ -1,6 +1,6 @@
-﻿namespace Bank.Common;
+﻿namespace Bank.Common.Messaging;
 
-public class SearchOrderRequest
+public class SearchOrderMessage
 {
     public string? DepartmentAddress { get; set; }
     public int? OrderId { get; set; }

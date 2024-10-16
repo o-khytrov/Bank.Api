@@ -1,5 +1,4 @@
-﻿using Bank.Api.ApiModels.Responses;
-using Bank.Common;
+﻿using Bank.Common;
 using MediatR;
 
 namespace Bank.Api.Commands;

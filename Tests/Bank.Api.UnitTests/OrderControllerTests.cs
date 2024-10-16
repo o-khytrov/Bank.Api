@@ -12,10 +12,6 @@ namespace Bank.Api.UnitTests;
 [TestFixture]
 public class OrderControllerTests
 {
-    private OrderController _orderController;
-    private Mock<IMediator> _mediatorMock;
-
-
     [SetUp]
     public void Setup()
     {
@@ -23,6 +19,9 @@ public class OrderControllerTests
 
         _orderController = new OrderController(_mediatorMock.Object, new CreateOrderRequestValidator(), new SearchOrderApiRequestValidator());
     }
+
+    private OrderController _orderController;
+    private Mock<IMediator> _mediatorMock;
 
     [Test]
     public async Task CreateOrder_ValidRequest_ReturnsOkResult()
@@ -36,7 +35,7 @@ public class OrderControllerTests
             Currency = Currency.USD
         };
 
-        var expectedResponse = new CreateOrderResponse()
+        var expectedResponse = new CreateOrderResponse
         {
             OrderId = Guid.NewGuid().ToString()
         };
