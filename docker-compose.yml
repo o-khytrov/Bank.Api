@@ -8,7 +8,7 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
-      - RabbitMQ__HostName=bank.rabbitmq
+      - RabbitMQ__Host=bank-rabbitmq
     depends_on:
       - bank.worker
     ports:
@@ -24,8 +24,8 @@
       dockerfile: Bank.Worker/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=bank.postgres;Database=bankdb;User Id=postgres;Password=postgres;
-      - RabbitMQ__HostName=bank.rabbitmq
+      - ConnectionStrings__BankDb=Server=bank-postgres;Database=bankdb;User Id=postgres;Password=postgres;
+      - RabbitMQ__Host=bank-rabbitmq
     depends_on:
       - bank.postgres
       - bank.rabbitmq

@@ -20,8 +20,9 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddMessaging(this IServiceCollection services)
+    public static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
     {
+        var rabbitMqConfig = configuration.GetSection("RabbitMQ");
         services.AddMassTransit(x =>
         {
             x.AddConsumer<SubmitOrderConsumer>();
@@ -29,10 +30,10 @@ public static class ServiceCollectionExtensions
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("localhost", "/", h =>
+                cfg.Host(rabbitMqConfig["Host"], rabbitMqConfig["VirtualHost"], h =>
                 {
-                    h.Username("user");
-                    h.Password("password");
+                    h.Username(rabbitMqConfig["Username"] ?? string.Empty);
+                    h.Password(rabbitMqConfig["Password"] ?? string.Empty);
                 });
 
                 cfg.ConfigureEndpoints(context);

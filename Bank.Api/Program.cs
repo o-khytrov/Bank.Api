@@ -4,7 +4,7 @@ using MassTransit;
 using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,12 +16,13 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddMassTransit(x =>
 {
+    var rabbitMqConfig = builder.Configuration.GetSection("RabbitMQ");
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", h =>
+        cfg.Host(rabbitMqConfig["Host"], rabbitMqConfig["VirtualHost"], h =>
         {
-            h.Username("user");
-            h.Password("password");
+            h.Username(rabbitMqConfig["Username"] ?? string.Empty);
+            h.Password(rabbitMqConfig["Password"] ?? string.Empty);
         });
 
         cfg.ConfigureEndpoints(context);
