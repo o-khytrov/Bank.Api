@@ -33,6 +33,7 @@
       - bank.mssql
     networks:
       - bank-network
+    restart: always
 
   bank.postgres:
     image: postgres:15
@@ -47,11 +48,6 @@
       - "5432:5432"
     networks:
       - bank-network
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
   
   bank.rabbitmq:
     image: rabbitmq:3-management
