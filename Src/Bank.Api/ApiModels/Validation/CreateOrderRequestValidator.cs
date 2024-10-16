@@ -11,8 +11,8 @@ public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
             .GreaterThanOrEqualTo(100)
             .LessThanOrEqualTo(100000);
 
-        RuleFor(x => x.ClientId).NotEmpty();
+        RuleFor(x => x.ClientId).NotEmpty().MaximumLength(128);
         RuleFor(x => x.Currency).NotEmpty().IsInEnum();
-        RuleFor(x => x.DepartmentAddress).NotEmpty();
+        RuleFor(x => x.DepartmentAddress).NotEmpty().MaximumLength(256);
     }
 }

@@ -13,9 +13,9 @@ public class Order
     public string ClientId { get; set; }
 
     /// <summary>
-    ///     Address of the client or the location related to the order
+    ///     Address of the department
     /// </summary>
-    public string Address { get; set; }
+    public string DepartmentAddress { get; set; }
 
     /// <summary>
     ///     The amount of money involved in the order

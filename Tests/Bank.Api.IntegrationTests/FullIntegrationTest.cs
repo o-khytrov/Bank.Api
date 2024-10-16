@@ -38,8 +38,11 @@ public class FullIntegrationTest
     public void SetUp()
     {
         _factory = new WebApplicationFactory<Program>();
-
         _client = _factory.CreateClient();
+    }
+
+    private void StartWorker()
+    {
         _workerHost = Worker.Program.CreateWorkerHost([]);
         _workerHost.Services.MigrateDb();
         _workerHost.Start();
@@ -66,6 +69,7 @@ public class FullIntegrationTest
     public async Task FullIntegrationTest_HappyPath(DbProvider dbProvider)
     {
         Environment.SetEnvironmentVariable(nameof(dbProvider), dbProvider.ToString());
+        StartWorker();
         const string departmentAddress = "Kharkivs'ka St, 32";
         const string clientId = "14360570";
         // Arrange & Act

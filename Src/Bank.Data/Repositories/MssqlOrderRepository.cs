@@ -12,7 +12,7 @@ public class MssqlOrderRepository(string connectionString) : IOrderRepository
         await using var connection = new SqlConnection(connectionString);
         var parameters = new DynamicParameters();
         parameters.Add("@clientId", order.ClientId);
-        parameters.Add("@address", order.Address);
+        parameters.Add("@departmentaddress", order.DepartmentAddress);
         parameters.Add("@amount", order.Amount);
         parameters.Add("@currency", order.Currency);
         parameters.Add("@clientIp", order.ClientIp);
@@ -30,7 +30,7 @@ public class MssqlOrderRepository(string connectionString) : IOrderRepository
 
         parameters.Add("@orderId", orderId, DbType.Int32);
         parameters.Add("@clientId", clientId, DbType.String);
-        parameters.Add("@address", address, DbType.String);
+        parameters.Add("@departmentAddress", address, DbType.String);
 
         var orders = await connection.QueryAsync<Order>("sp_orders_search", parameters, commandType: CommandType.StoredProcedure);
 

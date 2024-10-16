@@ -12,16 +12,16 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
         await using var dbConnection = new NpgsqlConnection(connectionString);
         var parameters = new DynamicParameters();
 
-        parameters.Add("p_clientid", order.ClientId);
-        parameters.Add("p_address", order.Address);
+        parameters.Add("p_client_id", order.ClientId);
+        parameters.Add("p_department_address", order.DepartmentAddress);
         parameters.Add("p_amount", order.Amount);
         parameters.Add("p_currency", order.Currency);
-        parameters.Add("p_clientip", order.ClientIp);
-        parameters.Add("p_orderid", dbType: DbType.Int32, direction: ParameterDirection.Output);
+        parameters.Add("p_client_ip", order.ClientIp);
+        parameters.Add("p_order_id", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
 
         await dbConnection.ExecuteAsync("sp_order_insert", parameters, commandType: CommandType.StoredProcedure);
-        var orderId = parameters.Get<int>("p_orderid");
+        var orderId = parameters.Get<int>("p_order_id");
         return orderId;
     }
 
@@ -31,11 +31,11 @@ public class NpgsqlOrderRepository(string connectionString) : IOrderRepository
 
         var parameters = new DynamicParameters();
 
-        parameters.Add("p_orderid", orderId, DbType.Int32);
-        parameters.Add("p_clientid", clientId, DbType.String);
-        parameters.Add("p_address", address, DbType.String);
+        parameters.Add("p_order_id", orderId, DbType.Int32);
+        parameters.Add("p_client_id", clientId, DbType.String);
+        parameters.Add("p_department_address", address, DbType.String);
 
-        var orders = await dbConnection.QueryAsync<Order>("Select * FROM fn_orders_search(@p_orderid, @p_clientid, @p_address)", parameters, commandType: CommandType.Text);
+        var orders = await dbConnection.QueryAsync<Order>("Select * FROM fn_orders_search(@p_order_id, @p_client_id, @p_department_address)", parameters, commandType: CommandType.Text);
 
         return orders;
     }

@@ -13,7 +13,7 @@ public class CreateOrderRequestHandler(IRequestClient<SubmitOrderMessage> client
         var order = new Order
         {
             ClientId = command.ClientId,
-            Address = command.DepartmentAddress,
+            DepartmentAddress = command.DepartmentAddress,
             Amount = command.Amount,
             Currency = command.Currency,
             ClientIp = command.ClientId
