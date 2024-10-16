@@ -41,13 +41,6 @@ public class FullIntegrationTest
         _client = _factory.CreateClient();
     }
 
-    private void StartWorker()
-    {
-        _workerHost = Worker.Program.CreateWorkerHost([]);
-        _workerHost.Services.MigrateDb();
-        _workerHost.Start();
-    }
-
     [TearDown]
     public void TearDown()
     {
@@ -55,6 +48,13 @@ public class FullIntegrationTest
         _factory.Dispose();
         _workerHost.StopAsync().GetAwaiter().GetResult();
         _workerHost.Dispose();
+    }
+
+    private void StartWorker()
+    {
+        _workerHost = Worker.Program.CreateWorkerHost([]);
+        _workerHost.Services.MigrateDb();
+        _workerHost.Start();
     }
 
     private WebApplicationFactory<Program> _factory;
@@ -96,6 +96,12 @@ public class FullIntegrationTest
         var searchOrdersResponse = searchOrdersHttpResponseContent.Deserialize<SearchOrdersResponse>();
         searchOrdersResponse.Should().NotBeNull();
         searchOrdersResponse?.Orders.Should().NotBeEmpty();
+        var order = searchOrdersResponse?.Orders.First() ?? throw new Exception();
+        order.OrderId.Should().Be(1);
+        order.DepartmentAddress.Should().Be(departmentAddress);
+        order.Amount.Should().Be(500);
+        order.Currency.Should().Be(Currency.UAH);
+        order.ClientId.Should().Be(clientId);
     }
 
     private async Task StartContainers()

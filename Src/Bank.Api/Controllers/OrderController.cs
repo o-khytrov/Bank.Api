@@ -1,4 +1,5 @@
-﻿using Bank.Api.ApiModels.Requests;
+﻿using Bank.Api.ApiModels;
+using Bank.Api.ApiModels.Requests;
 using Bank.Api.ApiModels.Responses;
 using Bank.Api.ApiModels.Validation;
 using Bank.Api.Commands;
@@ -36,7 +37,7 @@ public class OrderController(
         if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
         var command = new SearchOrderCommand(searchRequest.OrderId, searchRequest.ClientId, searchRequest.DepartmentAddress);
         var result = await mediator.Send(command, cancellationToken);
-        return Ok(new SearchOrdersResponse(result.Orders));
+        return Ok(new SearchOrdersResponse(result.Orders.Select(x => new OrderApiModel(x))));
     }
 
     private string? GetClientIpAddress()
@@ -44,7 +45,7 @@ public class OrderController(
         var remoteIpAddress = httpContextAccessor.HttpContext?.Connection.RemoteIpAddress;
 
 
-        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6) remoteIpAddress = remoteIpAddress.MapToIPv4();
+        if (remoteIpAddress is { IsIPv4MappedToIPv6: true }) remoteIpAddress = remoteIpAddress.MapToIPv4();
 
         return remoteIpAddress?.ToString();
     }

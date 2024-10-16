@@ -16,7 +16,7 @@ public class CreateOrderRequestHandler(IRequestClient<SubmitOrderMessage> client
             DepartmentAddress = command.DepartmentAddress,
             Amount = command.Amount,
             Currency = command.Currency,
-            ClientIp = command.ClientId
+            ClientIp = command.ClientIpAddress
         };
         var response = await client.GetResponse<SubmitOrderReply>(new SubmitOrderMessage(order), cancellationToken);
 
