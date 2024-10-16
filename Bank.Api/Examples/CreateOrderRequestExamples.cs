@@ -9,12 +9,12 @@ public class CreateOrderRequestExamples : IMultipleExamplesProvider<CreteOrderRe
     public IEnumerable<SwaggerExample<CreteOrderRequest>> GetExamples()
     {
         yield return SwaggerExample.Create("Create new order request", new CreteOrderRequest
-        {
-            ClientId = "14360570",
-            DepartmentAddress = "Kharkivs'ka St, 32",
-            Amount = 500,
-            Currency = Currency.UAH
-        });
+        (
+            ClientId: "14360570",
+            DepartmentAddress: "Kharkivs'ka St, 32",
+            Amount: 500,
+            Currency: Currency.UAH
+        ));
     }
 }
 

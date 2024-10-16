@@ -3,17 +3,13 @@ using Bank.Common;
 
 namespace Bank.Api.ApiModels.Requests;
 
-public record CreteOrderRequest
-{
-    [JsonPropertyName("client_id")]
-    public string ClientId { get; set; }
-
-    [JsonPropertyName("department_address")]
-    public string DepartmentAddress { get; set; }
-
-    [JsonPropertyName("amount")]
-    public decimal Amount { get; set; }
-
-    [JsonPropertyName("currency")]
-    public Currency Currency { get; set; }
-}
+public record CreteOrderRequest(
+    [property: JsonPropertyName("client_id")]
+    string ClientId,
+    [property: JsonPropertyName("department_address")]
+    string DepartmentAddress,
+    [property: JsonPropertyName("amount")]
+    decimal Amount,
+    [property: JsonPropertyName("currency")]
+    Currency Currency
+);

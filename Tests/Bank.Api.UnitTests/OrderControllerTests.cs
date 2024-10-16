@@ -28,17 +28,14 @@ public class OrderControllerTests
     {
         // Arrange
         var request = new CreteOrderRequest
-        {
-            ClientId = "12345",
-            DepartmentAddress = "123 Main St",
-            Amount = 100.50m,
-            Currency = Currency.USD
-        };
+        (
+            ClientId: "12345",
+            DepartmentAddress: "123 Main St",
+            Amount: 100.50m,
+            Currency: Currency.USD
+        );
 
-        var expectedResponse = new CreateOrderResponse
-        {
-            OrderId = Guid.NewGuid().ToString()
-        };
+        var expectedResponse = new CreateOrderResponse(42);
 
         _mediatorMock.Setup(m => m.Send(It.IsAny<CreteOrderRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expectedResponse);

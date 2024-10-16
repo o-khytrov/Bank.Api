@@ -24,18 +24,9 @@ public class OrderController(
         var command = new CreateOrderCommand(request.ClientId, request.DepartmentAddress, request.Amount, request.Currency, ipAddress);
 
         var result = await mediator.Send(command, cancellationToken);
-        return Ok(result);
+        return Ok(new CreateOrderResponse(result.OrderId));
     }
 
-    private string GetClientIpAddress()
-    {
-        var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
-
-
-        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6) remoteIpAddress = remoteIpAddress.MapToIPv4();
-
-        return remoteIpAddress.ToString();
-    }
 
     [HttpGet]
     public async Task<IActionResult> SearchOrder([FromQuery] SearchOrderApiRequest searchRequest, CancellationToken cancellationToken)
@@ -45,5 +36,15 @@ public class OrderController(
         var command = new SearchOrderCommand(searchRequest.OrderId, searchRequest.ClientId, searchRequest.DepartmentAddress);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(new SearchOrdersResponse(result.Orders));
+    }
+
+    private string? GetClientIpAddress()
+    {
+        var remoteIpAddress = HttpContext.Connection.RemoteIpAddress;
+
+
+        if (remoteIpAddress != null && remoteIpAddress.IsIPv4MappedToIPv6) remoteIpAddress = remoteIpAddress.MapToIPv4();
+
+        return remoteIpAddress?.ToString();
     }
 }

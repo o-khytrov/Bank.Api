@@ -9,7 +9,7 @@ public class CreateOrderRequestHandler(IRequestClient<Order> client) : IRequestH
 {
     public async Task<CreateOrderCommandResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
     {
-        var order = new Order
+        var order = new Order()
         {
             ClientId = command.ClientId,
             Address = command.DepartmentAddress,

@@ -8,6 +8,6 @@ public record CreateOrderCommand(
     string DepartmentAddress,
     decimal Amount,
     Currency Currency,
-    string ClientIpAddress) : IRequest<CreateOrderCommandResult>;
+    string? ClientIpAddress = null) : IRequest<CreateOrderCommandResult>;
 
 public record CreateOrderCommandResult(int OrderId);

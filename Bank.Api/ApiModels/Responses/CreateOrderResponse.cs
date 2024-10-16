@@ -2,8 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Bank.Api.ApiModels.Responses;
 
-public record CreateOrderResponse
-{
-    [JsonPropertyName("request_id")]
-    public string OrderId { get; set; }
-}
+public record CreateOrderResponse(
+    [property: JsonPropertyName("request_id")]
+    int OrderId
+);
