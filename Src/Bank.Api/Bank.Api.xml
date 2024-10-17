@@ -45,6 +45,11 @@
                 The currency type used for the order (e.g., UAH, USD, EUR)
             </summary>
         </member>
+        <member name="P:Bank.Api.ApiModels.OrderApiModel.Status">
+            <summary>
+            Status of the order
+            </summary>
+        </member>
         <member name="T:Bank.Api.ApiModels.Requests.CreateOrderRequest">
             <summary>
             Request for submitting new order

@@ -6,6 +6,7 @@ CREATE TABLE Orders
     Amount            DECIMAL(15, 2) NOT NULL,                  -- Amount involved
     Currency          INT            NOT NULL,                  -- Currency type (e.g., UAH, USD, EUR)
     ClientIp          VARCHAR(128)   NOT NULL,                  -- Client's IP departmentAddress (IPv4/IPv6)
+    Status            INT            NOT NULL DEFAULT 0,        --Status of the order
     CreatedAt         DATETIME2      NOT NULL DEFAULT GETDATE() -- Timestamp of when the order was created
 );
 GO

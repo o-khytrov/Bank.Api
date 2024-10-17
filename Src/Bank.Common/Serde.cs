@@ -8,7 +8,11 @@ namespace Bank.Common;
 public static class Serde
 {
     private static readonly JsonSerializerOptions _defaultSerializerSettings =
-        new() { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull };
+        new()
+        {
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters = { new JsonStringEnumConverter() }
+        };
 
     public static string Serialize(this object obj, JsonSerializerOptions? options = null)
     {

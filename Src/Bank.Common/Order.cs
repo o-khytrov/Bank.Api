@@ -31,4 +31,9 @@ public class Order
     ///     IP address of the client making the request
     /// </summary>
     public string ClientIp { get; set; }
+
+    /// <summary>
+    /// Status of the order
+    /// </summary>
+    public int Status { get; set; }
 }

@@ -1,12 +1,13 @@
 CREATE TABLE Orders
 (
-    OrderId           SERIAL PRIMARY KEY,      -- Auto-incremented unique ID for each order
-    ClientId          VARCHAR(128)   NOT NULL, -- Client's unique identifier
-    DepartmentAddress VARCHAR(256)   NOT NULL, -- Address of the Department
-    Amount            DECIMAL(15, 2) NOT NULL, -- Amount of money involved
-    Currency          INT            NOT NULL, -- Currency type (e.g., UAH, USD, EUR)
-    ClientIp          VARCHAR(128)   NOT NULL, -- IP address of the client (IPv4 and IPv6 compatible)
-    CreatedAt         TIMESTAMP DEFAULT NOW()  -- Timestamp for when the order was created
+    OrderId           SERIAL PRIMARY KEY,                   -- Auto-incremented unique ID for each order
+    ClientId          VARCHAR(128)   NOT NULL,              -- Client's unique identifier
+    DepartmentAddress VARCHAR(256)   NOT NULL,              -- Address of the Department
+    Amount            DECIMAL(15, 2) NOT NULL,              -- Amount of money involved
+    Currency          INT            NOT NULL,              -- Currency type (e.g., UAH, USD, EUR)
+    ClientIp          VARCHAR(128)   NOT NULL,              -- IP address of the client (IPv4 and IPv6 compatible)
+    Status            INT            NOT NULL DEFAULT 0,    --Status of the order
+    CreatedAt         TIMESTAMP               DEFAULT NOW() -- Timestamp for when the order was created
 );
 CREATE INDEX idx_orders_client_department
     ON Orders (ClientId, DepartmentAddress);

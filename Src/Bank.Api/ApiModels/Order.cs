@@ -26,6 +26,7 @@ public class OrderApiModel
         DepartmentAddress = order.DepartmentAddress;
         Amount = order.Amount;
         Currency = order.Currency;
+        Status = order.Status;
     }
 
     /// <summary>
@@ -58,4 +59,11 @@ public class OrderApiModel
     /// </summary>
     [JsonPropertyName("currency")]
     public Currency Currency { get; set; }
+
+    /// <summary>
+    /// Status of the order
+    /// </summary>
+    [JsonPropertyName("status")]
+
+    public int Status { get; set; }
 }
